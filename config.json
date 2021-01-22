@@ -1,0 +1,25 @@
+{
+  "settings": {
+    "protocol": "http",
+    "server": "localhost",
+    "port": "8081"
+  },
+  "cameras": {
+    "NVRchannel1": "HomeBridgechannel1",
+    "NVRchannel2": "HomeBridgechannel2",
+    "NVRchannel3": "HomeBridgechannel3",
+    "NVRchannel4": "HomeBridgechannel4",
+    "NVRchannel5": "HomeBridgechannel5",
+    "NVRchannel6": "HomeBridgechannel6",
+    "NVRchannel7": "HomeBridgechannel7",
+    "NVRchannel8": "HomeBridgechannel8",
+    "NVRchannel9": "HomeBridgechannel9",
+    "NVRchannel10": "HomeBridgechannel10",
+    "NVRchannel11": "HomeBridgechannel11",
+    "NVRchannel12": "HomeBridgechannel12",
+    "NVRchannel13": "HomeBridgechannel13",
+    "NVRchannel14": "HomeBridgechannel14",
+    "NVRchannel15": "HomeBridgechannel15",
+    "NVRchannel16": "HomeBridgechannel16"
+  }
+}

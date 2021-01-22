@@ -1,0 +1,21 @@
+<config>
+    <protocol>http</protocol>
+    <server>localhost</server>
+    <port>8081</port>
+    <cameras>
+        <camera camera-id="Front Door"/>
+        <camera camera-id="Driveway"/>
+        <camera camera-id="Back Door"/>
+        <camera camera-id="Sliding Glass Door"/>
+    </cameras>    
+    <actions>
+        <action action-id="motion"/>
+        <action action-id="doorbell"/>
+    </actions>
+</config>
+
+<!-- The final URL should look like the examples below -->
+<!-- http://localhost:8081/motion?Camera%20Name -->
+<!-- http://localhost:8081/doorbell?Camera%20Name -->
+<!-- protocol + "://" + server + : + port + / + action-id + "?" + camera-id -->
+<!-- Spaces must be handles as %20 -->

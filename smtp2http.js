@@ -15,12 +15,10 @@ squabble.shortOpts().longOpts().stopper()
     .option("-T", "--tls")
     .flag("-s", "-q", "--silent", "--quiet")
     .flag("-v", "--verbose")
-    .list("-H", "--header")
-    .required("ENDPOINT");
+    .list("-H", "--header");
 
 // parse and apply arguments
 args = squabble.parse();
-serverOpts.endpoint = args.named.ENDPOINT;
 serverOpts.headers = {};
 args.named["--header"].forEach(function(headerLine) {
     var name = headerLine.split(":")[0];
@@ -33,8 +31,23 @@ if (args.named["--quiet"]) {
     console.log = function() {};
     console.error = function() {};
 } else if (!args.named["--verbose"]) {
-    console.log = function() {};
+    //console.log = function() {};
 }
+var config
+// read configuration
+const fs = require('fs');
+fs.readFile('./config.json', 'utf8', (err, data) => {
+
+    if (err) {
+        console.log(`Error reading config.json: ${err}`);
+    } else {
+
+        // parse JSON string to JSON object
+        config = JSON.parse(data);
+
+    }
+
+});
 
 if (args.named["--tls"]) {
     tlsPaths = args.named["--tls"].split(":");
@@ -55,29 +68,34 @@ smtp.createServer(serverOpts, function(req) {
     // send message to web endpoint
     req.on("message", function(stream, ack) {
         stream.pipe(new MailParser().on("end", function(email) {
-            http.post({
-                url: serverOpts.endpoint,
-                json: email,
-                headers: serverOpts.headers
-            }, function(err, res, body) {
-                var msg;
 
-                if (err) return console.error("error".red + " " + err.message);
-                
-                msg = String(res.statusCode);
-                if (res.statusCode >= 500) {
-                    console.error(msg.red + " " + body.replace("\n", "\\n"));
-                } else if (res.statusCode >= 200 && res.statusCode < 300) {
-                    console.log(msg.green + " message passed " + id);
-                } else {
-                    console.error(msg.magenta + " unexpected");
+            config.inputs.forEach(input => {
+                if(email.text.includes(input.match)) {
+                    console.log("Found " + input.match + ", sending to " + input.postServer)
+                    http.post({
+                        url: input.postServer,
+                        json: email,
+                        headers: serverOpts.headers
+                    }, function(err, res, body) {
+                        var msg;
+
+                        if (err) return console.error("error".red + " " + err.message);
+                        
+                        msg = String(res.statusCode);
+                        if (res.statusCode >= 500) {
+                            console.error(msg.red + " " + body.replace("\n", "\\n"));
+                        } else if (res.statusCode >= 200 && res.statusCode < 300) {
+                            console.log(msg.green + " message passed " + id);
+                        } else {
+                            console.error(msg.magenta + " unexpected");
+                        }
+                    });
                 }
-            })
-        }).on("error", function(err) {
-            console.error(err);
-        }));
+            });
 
+            }).on("error", function(err) {
+                console.error(err);
+            }));
         ack.accept();
     });
 }).listen(process.env.SMTP_PORT || 25);
-

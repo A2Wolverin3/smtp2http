@@ -69,7 +69,18 @@ In the example below, you can see that if the motion notification e-mail contain
 
 After you have installed the application and configured the config.json file, you can setup the SMTP server on your Reolink NVR. You will need to enter the IP address of your Raspberry Pi as the mail server using port 25 and no authentication. You can enter any to and from addresses that you want, it will process the e-mails either way. Make sure that you click the test e-mail button to make sure that your NVR is properly communicating with the SMTP server. You will also need to ensure that your Reolink app is set to send e-mails when motion is detected. You can do this within the Reolink mobile app or the web interface. You should send the e-mails WITHOUT any attachment as that will just slow things down and cause a delay in your notifications.
 
-### TLS Support
+Installation
+-------
+```sh
+git clone https://github.com/rpruden/smtp2http
+cd smtp2http
+npm install -g
+```
+
+After installation, you will need to set the smtp2http executable to run at startup. There are several ways to do this. When testing manually, I find that the config file is only read if I CD to the smtp2http directory before running the program. I am still working out how to launch this properly at startup without human interaction.
+
+TLS Support
+-----------
 For the purpose of this project, TLS/SSL should not be required.
 
 Enable TLS using separate certificate and key files with signing CA cert.
@@ -92,16 +103,6 @@ Enable TLS using single PFX combined cert file.
 CERT=/etc/private/ssl/example.com.pfx
 smtp2http -T$CERT https://example.com/foo
 ```
-
-Installation
--------
-```sh
-git clone https://github.com/rpruden/smtp2http
-cd smtp2http
-npm install -g
-```
-
-After installation, you will need to set the smtp2http executable to run at startup. There are several ways to do this. When testing manually, I find that the config file is only read if I CD to the smtp2http directory before running the program. I am still working out how to launch this properly at startup without human interaction.
 
 Development
 -----------

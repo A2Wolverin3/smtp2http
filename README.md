@@ -1,33 +1,16 @@
 # smtp2http
-SMTP to HTTP gateway
+SMTP to HTTP gateway for sending motion notifications to Homebridge from security cameras or NVR.
 
 Notes
 -----
-I am trying to adapt this to be used for motion notifications on a Reolink Secuirty Camera NVR for use with Apple HomeKit.
-This is a work in progress and should not be used as is.
+This code has been adapted from another project and modified. This setup has been explicitely setup to be used for motion notifications on a Reolink Secuirty Camera NVR for use with Apple HomeKit.
 
-Changes Required
------
-Need to be able to reference a config file when launching the application
-Should remove the optional SSL/TLS functions
-Inbound SMTP messages should be parsed by reading the subject line
-Subject line should look for words that match the camera ID's in the config.xml file
-If Subject line contains any of the camera-IDs
-Then for each camera-ID
-Post a URL for each action listed in the config.xml
-
-Example:
-If an e-mail arrives that the subject reads, "Motion Detection from Front Door at 01/01/2021 01:11:11"
-Then any camera named "Front Door" should make an HTTP post for the "motion" and "doorbell" actions.
-Those requests should look like, http://localhost:8081/motion?Front%20Door and http://localhost:8081/doorbell?Front%20Door
-
-This will generate a motion indicator and a doorbell indicator to homekit, if enabled as such. If the function is not enabled, then it will do nothing.
 
 Usage
 -----
 ```sh
 Usage: smtp2http [-v|--verbose] [-s|--silent|-q|--quiet]
-    [-T|--tls=<tls_opt>] [[-H|--header=<header>], ...] ENDPOINT
+    [-T|--tls=<tls_opt>] [[-H|--header=<header>], ...]
 
  -H --header=<header>   HTTP header to send with requests
  -q --quiet             Do not log to STDERR
@@ -47,17 +30,38 @@ authority certificate.
 Examples
 --------
 Begin listening for incoming SMTP messages, parse them, and post them to the
-specified HTTP endpoint.
+specified HTTP endpoints indicated in config.jason.
 ```sh
-smtp2http https://example.com/foo
+smtp2http
 ```
 
-Updated version should refer to a config file
-```sh
-smtp2http config.xml
+Instructions
+--------
+To setup motion notifications using this tool with your NVR you must first install the application and modify the config file. The configuration file is a standard JSON file that performs mapping of NVR channels to specific HomeBridge Cameras.
+
+The "match" portion of the config file searches the entire body of the email. You can use this to customize which text should be present to trigger the motion alert. By default the "Alarm Input Channel No.:" string will work with Reolink NVR and the number will increment for each channel 1-16. You can choose to query a manually specified camera name instead if you want.
+
+The "postServer" portion of the config file indicates which URL to post the motion notification to. This will vary depending on your HomeBridge installation and configuration. From within the Homebridge Camera FFmpeg plugin, if you have enabled the Motion and/or Doorbell functions under the automation tab for your camera you will be able to check for the port number by looking at the raw config. Within the Camera FFmpeg section of your config look for the port number. You can join this with http://localhost:8081/motion? or http://localhost:8081/doorbell? You will need to add your camera name as specified within home bridge after the "?". If there are any spaces in your camera names, you must replace them with "%20". See the example below.
+
+I recommend to setup all 8 or 16 channels for your cameras. To avoid having to make changes to the config, I would recommend adding both the motion and doorbell URLs so that you can simply turn those features on/off within homebridge. Even if you don't enable both functions for all cameras, it's better to have the config there in case you decide to change settings later.
+
+In the example below, you can see that if the motion notification e-mail contains "Alarm Input Channel No.:1" that it will post to both a motion and doorbell URL. If the e-mail contains "Alarm Input Channel No.:2" then it will post to just the motion URL.
+
 ```
+{
+  "inputs": [
+    { "match": "Alarm Input Channel No.:1", "postServer": "http://localhost:8081/motion?Front%20Door" },
+    { "match": "Alarm Input Channel No.:1", "postServer": "http://localhost:8081/doorbell?Front%20Door" },
+    { "match": "Alarm Input Channel No.:2", "postServer": "http://localhost:8081/motion?Driveway" }
+  ]
+}
+```
+
+After you have installed the application and configured the config.json file, you can setup the SMTP server on your Reolink NVR. You will need to enter the IP address of your Raspberry Pi as the mail server using port 25 and no authentication. You can enter any to and from addresses that you want, it will process the e-mails either way. Make sure that you click the test e-mail button to make sure that your NVR is properly communicating with the SMTP server. You will also need to ensure that your Reolink app is set to send e-mails when motion is detected. You can do this within the Reolink mobile app or the web interface. You should send the e-mails WITHOUT any attachment as that will jsut slow things down and cause a delay in your notifications.
 
 ### TLS Support
+For the purpose of this project, TLS/SSL should not be required.
+
 Enable TLS using separate certificate and key files with signing CA cert.
 ```sh
 CERT=/etc/private/ssl/example.com.crt
@@ -87,8 +91,12 @@ cd smtp2http
 npm install -g
 ```
 
+After installation, you will need to set the smtp2http executable to run at startup. There are several ways to do this. When testing manually, I find that the config file is only read if I CD to the smtp2http directory before running the program.
+
 Development
 -----------
+Public access should be un-necessary for this project. We will only be sending e-mails internally across the LAN. This section can probably be skipped for most users.
+
 The SMTP protocol does not provide any way to set the TCP port used for
 communication.  Because of this, development can be difficult if trying to
 use public mail providers because you must have an internet facing server

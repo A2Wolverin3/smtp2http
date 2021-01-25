@@ -5,6 +5,16 @@ Notes
 -----
 This code has been adapted from another project and modified. This setup has been explicitely setup to be used for motion notifications on a Reolink Secuirty Camera NVR for use with Apple HomeKit.
 
+How This Works
+-----
+Reolink NVR detects motion and sends a motion alert via e-mail. The HomeBridge Server (Raspberry Pi) is configured as the SMTP server and parses all e-mails that are sent through it regardless of the sender/receiver indicated. When a motion alert is received, the e-mail is read and depending on the content of the e-mail it will post an HTTP response to the appropriate URL which tells HomeBridge to notify HomeKit that there is motion for a specific camera. This also works for virtual doorbell notifications as well.
+
+The path of communication looks like this;
+Reolink NVR --> SMTP Server --> HTTP Server --> HomeBridge --> HomeKit
+
+The SMTP server, HTTP server, and Homebridge are all one shared instance. So it really looks like this;
+
+Reolink NVR --> Raspberry Pi --> HomeKit
 
 Usage
 -----
@@ -57,7 +67,7 @@ In the example below, you can see that if the motion notification e-mail contain
 }
 ```
 
-After you have installed the application and configured the config.json file, you can setup the SMTP server on your Reolink NVR. You will need to enter the IP address of your Raspberry Pi as the mail server using port 25 and no authentication. You can enter any to and from addresses that you want, it will process the e-mails either way. Make sure that you click the test e-mail button to make sure that your NVR is properly communicating with the SMTP server. You will also need to ensure that your Reolink app is set to send e-mails when motion is detected. You can do this within the Reolink mobile app or the web interface. You should send the e-mails WITHOUT any attachment as that will jsut slow things down and cause a delay in your notifications.
+After you have installed the application and configured the config.json file, you can setup the SMTP server on your Reolink NVR. You will need to enter the IP address of your Raspberry Pi as the mail server using port 25 and no authentication. You can enter any to and from addresses that you want, it will process the e-mails either way. Make sure that you click the test e-mail button to make sure that your NVR is properly communicating with the SMTP server. You will also need to ensure that your Reolink app is set to send e-mails when motion is detected. You can do this within the Reolink mobile app or the web interface. You should send the e-mails WITHOUT any attachment as that will just slow things down and cause a delay in your notifications.
 
 ### TLS Support
 For the purpose of this project, TLS/SSL should not be required.
@@ -83,7 +93,7 @@ CERT=/etc/private/ssl/example.com.pfx
 smtp2http -T$CERT https://example.com/foo
 ```
 
-Install
+Installation
 -------
 ```sh
 git clone https://github.com/rpruden/smtp2http
@@ -91,7 +101,7 @@ cd smtp2http
 npm install -g
 ```
 
-After installation, you will need to set the smtp2http executable to run at startup. There are several ways to do this. When testing manually, I find that the config file is only read if I CD to the smtp2http directory before running the program.
+After installation, you will need to set the smtp2http executable to run at startup. There are several ways to do this. When testing manually, I find that the config file is only read if I CD to the smtp2http directory before running the program. I am still working out how to launch this properly at startup without human interaction.
 
 Development
 -----------

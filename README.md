@@ -72,12 +72,13 @@ After you have installed the application and configured the config.json file, yo
 Installation
 -------
 ```sh
+cd /opt
 git clone https://github.com/rpruden/smtp2http
 cd smtp2http
 npm install -g
 ```
 
-After installation, you will need to set the smtp2http executable to run at startup. There are several ways to do this. When testing manually, I find that the config file is only read if I CD to the smtp2http directory before running the program. I am still working out how to launch this properly at startup without human interaction.
+After installation, you must you will need to set the smtp2http executable to run at startup. There are several ways to do this. When testing manually, I find that the config file is only read if I CD to the smtp2http directory before running the program. I am still working out how to launch this properly at startup without human interaction.
 
 TLS Support
 -----------

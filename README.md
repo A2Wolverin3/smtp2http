@@ -78,7 +78,17 @@ cd smtp2http
 npm install -g
 ```
 
-After installation, you must you will need to set the smtp2http executable to run at startup. There are several ways to do this. When testing manually, I find that the config file is only read if I CD to the smtp2http directory before running the program. I am still working out how to launch this properly at startup without human interaction.
+You may need to sudo the last command to install the npm. After installation, you must you will need to set the smtp2http executable to run at startup. There are several ways to do this. I did this by doing the following;
+
+```sh
+sudo nano /etc/rc.local
+```
+
+Add the following line to the bottom before the line that reads "exit 0"
+```sh
+sudo smtp2http
+```
+Save the file and then reboot to test.
 
 TLS Support
 -----------

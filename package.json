@@ -16,11 +16,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Zingle/smtp2http.git"
+    "url": "https://github.com/rpruden/smtp2http.git"
   },
-  "author": "Richard Remer (reanjr@gmail.com)",
+  "author": "Richard Prudencio",
   "license": "proprietary",
   "bugs": {
-    "url": "https://github.com/Zingle/smtp2http/issues"
+    "url": "https://github.com/rpruden/smtp2http/issues"
   }
 }

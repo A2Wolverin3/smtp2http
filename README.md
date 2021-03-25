@@ -86,7 +86,7 @@ cp config.sample.json config.json
 ```
 You can now modify the config.json to suport your camera names as they are configured for your specific environment.
 
-After installation, you must you will need to set the smtp2http executable to run at startup. There are several ways to do this. I did this by doing the following;
+After installation, you you will need to set the smtp2http executable to run at startup. There are several ways to do this. I did this by doing the following;
 
 ```sh
 sudo nano /etc/rc.local
@@ -96,6 +96,7 @@ Add the following line to the bottom before the line that reads "exit 0"
 ```sh
 sudo smtp2http >> /var/logs/smtp2http.log
 ```
+This will cause the program to run with sudo privilages (which it needs to open port 25) and save the output to the log.
 Save the file and then reboot to test.
 
 TLS Support

@@ -76,9 +76,10 @@ cd /opt
 git clone https://github.com/rpruden/smtp2http
 cd smtp2http
 npm install -g
+cp logrotate/smtp2http /etc/logrotate.d/smtp2http
 ```
 
-You may need to sudo the last command to install the npm. After installation, you must you will need to set the smtp2http executable to run at startup. There are several ways to do this. I did this by doing the following;
+You may need to use sudo for some of these commands. After installation, you must you will need to set the smtp2http executable to run at startup. There are several ways to do this. I did this by doing the following;
 
 ```sh
 sudo nano /etc/rc.local
@@ -86,7 +87,7 @@ sudo nano /etc/rc.local
 
 Add the following line to the bottom before the line that reads "exit 0"
 ```sh
-sudo smtp2http
+sudo smtp2http >> /var/logs/smtp2http.log
 ```
 Save the file and then reboot to test.
 

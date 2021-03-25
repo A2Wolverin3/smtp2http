@@ -77,6 +77,9 @@ git clone https://github.com/rpruden/smtp2http
 cd smtp2http
 npm install -g
 cp logrotate/smtp2http /etc/logrotate.d/smtp2http
+touch /var/log/smtp2http.log
+chown root:root /var/log/smtp2http.log
+chmod a+rw /var/log/smtp2http.log
 ```
 You may need to use sudo for some of these commands. 
 

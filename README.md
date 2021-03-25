@@ -99,6 +99,11 @@ sudo smtp2http >> /var/log/smtp2http.log &
 This will cause the program to run with sudo privilages (which it needs to open port 25) and save the output to the log.
 Save the file and then reboot to test.
 
+You can view the real time logs by typing the following.
+```sh
+tail -f /var/log/smtp2http.log
+```
+
 TLS Support
 -----------
 For the purpose of this project, TLS/SSL should not be required.

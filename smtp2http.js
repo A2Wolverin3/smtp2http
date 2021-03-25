@@ -36,7 +36,7 @@ if (args.named["--quiet"]) {
 var config
 // read configuration
 const fs = require('fs');
-fs.readFile('./config.json', 'utf8', (err, data) => {
+fs.readFile('/opt/smtp2http/config.json', 'utf8', (err, data) => {
 
     if (err) {
         console.log(`Error reading config.json: ${err}`);

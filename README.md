@@ -78,13 +78,15 @@ cd smtp2http
 npm install -g
 cp logrotate/smtp2http /etc/logrotate.d/smtp2http
 ```
+You may need to use sudo for some of these commands. 
+
 If this is your first installation, you will need to create a config file. You can start by making a copy of the config.sample.json file.
 ```sh
 cp config.sample.json config.json
 ```
 You can now modify the config.json to suport your camera names as they are configured for your specific environment.
 
-You may need to use sudo for some of these commands. After installation, you must you will need to set the smtp2http executable to run at startup. There are several ways to do this. I did this by doing the following;
+After installation, you must you will need to set the smtp2http executable to run at startup. There are several ways to do this. I did this by doing the following;
 
 ```sh
 sudo nano /etc/rc.local

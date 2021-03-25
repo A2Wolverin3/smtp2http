@@ -94,7 +94,7 @@ sudo nano /etc/rc.local
 
 Add the following line to the bottom before the line that reads "exit 0"
 ```sh
-sudo smtp2http >> /var/logs/smtp2http.log
+sudo smtp2http >> /var/logs/smtp2http.log &
 ```
 This will cause the program to run with sudo privilages (which it needs to open port 25) and save the output to the log.
 Save the file and then reboot to test.

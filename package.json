@@ -6,12 +6,12 @@
     "smtp2http": "./smtp2http.js"
   },
   "dependencies": {
+    "colors": "^1",
+    "mailparser": "^0.5",
+    "objektify": "^1",
+    "request": "^2",
     "smtp-protocol": "^2",
     "squabble": "^1",
-    "request": "^2",
-    "mailparser": "^0.5",
-    "colors": "^1",
-    "objektify": "^1",
     "tlsfs": "^1"
   },
   "repository": {

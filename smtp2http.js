@@ -44,7 +44,7 @@ fs.readFile('./config.json', 'utf8', (err, data) => {
 
         // parse JSON string to JSON object
         config = JSON.parse(data);
-
+	console.log("Config file read, listening for connections.");
     }
 
 });
@@ -83,7 +83,7 @@ smtp.createServer(serverOpts, function(req) {
                         
                         msg = String(res.statusCode);
                         if (res.statusCode >= 500) {
-                            console.error(msg.red + " " + body.replace("\n", "\\n"));
+                            console.error(msg.red + " " + body.message);
                         } else if (res.statusCode >= 200 && res.statusCode < 300) {
                             console.log(msg.green + " message passed " + id);
                         } else {

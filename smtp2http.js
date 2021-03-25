@@ -80,14 +80,14 @@ smtp.createServer(serverOpts, function(req) {
                         var msg;
 
                         if (err) return console.error("error".red + " " + err.message);
-                        
                         msg = String(res.statusCode);
                         if (res.statusCode >= 500) {
-                            console.error(msg.red + " " + body.message);
+                            console.log(msg.red + " " + body.message);
                         } else if (res.statusCode >= 200 && res.statusCode < 300) {
-                            console.log(msg.green + " message passed " + id);
+                            console.log(msg.green + " " + body.message);
                         } else {
                             console.error(msg.magenta + " unexpected");
+                            console.log(msg.magenta + " unexpected");
                         }
                     });
                 }

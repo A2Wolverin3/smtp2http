@@ -1,5 +1,5 @@
 /var/log/smtp2http.log {
-  rotate 12
+  rotate 3
   monthly
   compress
   missingok

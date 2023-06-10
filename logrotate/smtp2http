@@ -1,8 +1,9 @@
-/var/log/smtp2http.log {
-  rotate 3
+/var/log/smtp2http/logs/smtp2http.log {
   monthly
+  rotate 4
   compress
   missingok
   notifempty
 }
 
+# Also, don't forget to copy 'clean-snaps' cron job to /etc/cron.daily/

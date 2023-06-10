@@ -1,0 +1,41 @@
+{
+  "logUnmatchedMessages": true,
+  "logFullMessages": true,
+
+  "serverOpts":
+  {
+  },
+
+  "inputs": [
+    { "match": "[Front S] has detected a person", "postServer":"http://__HOMEBRIDGE__/motion?Front%20South", "saveAttachments":"person" },
+    { "match": "[Front S] has detected a vehicle", "postServer":null, "saveAttachments":"vehicle" },
+    { "match": "[Front S] has detected motion", "postServer":null, "saveAttachments":"motion" },
+
+    { "match": "[Front N] has detected a person", "postServer":"http://__HOMEBRIDGE__/motion?Front%20North", "saveAttachments":"person" },
+    { "match": "[Front N] has detected a vehicle", "postServer":null, "saveAttachments":"vehicle" },
+    { "match": "[Front N] has detected motion", "postServer":null, "saveAttachments":"motion" },
+
+    { "match": "[Back S] has detected a person", "postServer":"http://__HOMEBRIDGE__/motion?Back%20South", "saveAttachments":"person" },
+    { "match": "[Back S] has detected a vehicle", "postServer":null, "saveAttachments":"vehicle" },
+    { "match": "[Back S] has detected motion", "postServer":null, "saveAttachments":"motion" },
+
+    { "match": "[Back N] has detected a person", "postServer":"http://__HOMEBRIDGE__/motion?Back%20North", "saveAttachments":"person" },
+    { "match": "[Back N] has detected a vehicle", "postServer":null, "saveAttachments":"vehicle" },
+    { "match": "[Back N] has detected motion", "postServer":null, "saveAttachments":"motion" },
+
+    { "match": "[MAE Club] has detected a person", "postServer":"http://__HOMEBRIDGE__/motion?MAE%20Club", "saveAttachments":"person" },
+    { "match": "[MAE Club] has detected a vehicle", "postServer":null, "saveAttachments":"vehicle" },
+    { "match": "[MAE Club] has detected motion", "postServer":null, "saveAttachments":"motion" },
+
+    { "match": "Someone Rang the Doorbell", "postServer":"http://__HOMEBRIDGE__/doorbell?Doorbell", "saveAttachments":"visitor" },
+    { "match": "[Doorbell] has detected a person", "postServer":"http://__HOMEBRIDGE__/motion?Doorbell", "saveAttachments":"person" },
+    { "match": "[Doorbell] has detected a vehicle", "postServer":null, "saveAttachments":"vehicle" },
+    { "match": "[Doorbell] has detected motion", "postServer":null, "saveAttachments":"motion" }
+ ],
+
+ "Comment": "These were examples. They match email body. I changed smtp2http to use subject line instead.",
+ "examples": [
+    { "match": "Alarm Input Channel No.:42", "postServer": "http://__HOMEBRIDGE__/motion?Front%20Door", "saveAttachments":null },
+    { "match": "Alarm Input Channel No.:42", "postServer": "http://__HOMEBRIDGE__/doorbell?Front%20Door", "saveAttachments":null }
+ ]
+}

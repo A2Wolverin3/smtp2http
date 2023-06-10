@@ -1,0 +1,18 @@
+#!/bin/sh
+
+##
+## Copy this file to /etc/cron.daily folder. It will keep the snaps directories under control
+##
+
+# this cronjob persists removals (but not purges)
+if [ ! -x /var/snaps ]; then
+    exit 0
+fi
+
+sudo /usr/bin/find /var/snaps/ -type f -name "*.jpg" -daystart -mtime +10 -delete
+
+EXITVALUE=$?
+if [ $EXITVALUE != 0 ]; then
+    /usr/bin/logger -t clean-snaps "ALERT exited abnormally with [$EXITVALUE]"
+fi
+exit $EXITVALUE

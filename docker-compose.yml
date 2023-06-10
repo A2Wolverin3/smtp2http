@@ -1,0 +1,25 @@
+version: "3.8"
+
+networks:
+  home:
+    name: ${_HOME_NET_NAME}
+    external: true
+
+services:
+  smtp2http:
+    image: ${_PROJECT_NAME}
+    container_name: ${_PROJECT_NAME}
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      args:
+        HOMEBRIDGE_ADDR: ${_HOMEBRIDGE_ADDR}
+    restart: always
+    networks:
+      home:
+        ipv4_address: ${_MY_IP_ADDR}
+    volumes:
+      - /opt/${_HOME_NET_NAME}/snaps:/var/snaps
+    # Don't need to publish port 25. Its already available within the virtual home network.
+    # ports:
+    #   - "25:25"

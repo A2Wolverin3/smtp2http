@@ -8,6 +8,8 @@
 set -e
 set -u
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+pushd "${SCRIPT_DIR}"
 . ../lib-sh-common
 IMAGE_NAME=smtp2http
 
@@ -59,10 +61,12 @@ verify_network "${HOME_NET_NAME}"
 HOME_SUBNET=${_SUBNET}
 
 # Verify we have a snaps directory ready for volume sharing
-mkdir -p /opt/${HOME_NET_NAME}/snaps
+sudo mkdir -p /opt/${HOME_NET_NAME}/snaps
+sudo chown root:root /opt/${HOME_NET_NAME}/snaps
+sudo chmod a+rw /opt/${HOME_NET_NAME}/snaps
 
 
-
+echo "Installing Smtp2Http..."
 set -x
 
 # Create and start the docker container
@@ -71,6 +75,6 @@ export _MY_IP_ADDR=$(get_home_ip_address_for "smtp2http" && echo ${_IP_SMTP2HTTP
 export _HOMEBRIDGE_ADDR="homebridge"
 export _PROJECT_NAME="${IMAGE_NAME}"
 docker compose -f "${SCRIPT_DIR}/docker-compose.yml" -p "${IMAGE_NAME}" up -d
-echo Done.
 
-set +x
+popd
+echo Done.

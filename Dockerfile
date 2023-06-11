@@ -13,7 +13,7 @@ RUN apt-get update && \
 # Install smtp2http
 COPY . /opt/smtp2http/
 WORKDIR /opt/smtp2http
-RUN ./install.sh ${HOMEBRIDGE_ADDR}
+RUN ./container-setup.sh ${HOMEBRIDGE_ADDR}
 
 # Run smtp2http
 CMD cron && smtp2http -c /opt/smtp2http/config.json --snap-dir /var/snaps >> /var/log/smtp2http.log

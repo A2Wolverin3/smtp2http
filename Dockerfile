@@ -16,4 +16,6 @@ WORKDIR /opt/smtp2http
 RUN ./container-setup.sh ${HOMEBRIDGE_ADDR}
 
 # Run smtp2http
-CMD cron && smtp2http -c /opt/smtp2http/config.json --snap-dir /var/snaps >> /var/log/smtp2http.log
+# Let docker handle the logging - Still need cron to clean snaps though.
+#CMD cron && smtp2http -c /opt/smtp2http/config.json --snap-dir /var/snaps >> /var/log/smtp2http.log
+CMD cron && smtp2http -c /opt/smtp2http/config.json --snap-dir /var/snaps

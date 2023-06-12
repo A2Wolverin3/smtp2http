@@ -15,9 +15,10 @@ npm install -g
 ln -s /usr/lib/node_modeules/smtp2http/smtp2http.js /usr/bin/smtp2http
 
 # Setup logging
-cp logrotate/smtp2http /etc/logrotate.d/smtp2http
-touch /var/log/smtp2http.log
-chmod a+rw /var/log/smtp2http.log
+# Actually, in a docker environment, lets just let docker handle the logs
+#cp logrotate/smtp2http /etc/logrotate.d/smtp2http
+#touch /var/log/smtp2http.log
+#chmod a+rw /var/log/smtp2http.log
 
 # Setup snaps
 mkdir -p /var/snaps

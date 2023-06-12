@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# Run a simple smtp server to receive motion detection email from the NVR system, and save the
-# screen captures from those emails in a "snaps" directory. Also fire off an HTTP request to
-# notify HomeBridge of events.
-
 # Exit on error; Undefined variables are errors
 set -e
 set -u
@@ -15,9 +11,9 @@ IMAGE_NAME=smtp2http
 
 print_help() {
   cat << EOF
-Run a simple smtp server to receive motion detection email from the NVR system, and save the
-screen captures from those emails in a "snaps" directory. Also fire off an HTTP request to
-notify HomeBridge of events.
+Install and run ${Image_Name}. A simple smtp server to receive motion detection email from
+NVR systems, and save the screen captures from those emails in a "snaps" directory. Also,
+fire off an HTTP request to notify HomeBridge of events.
 
 Usage: ${0##*/} [-i <img_name>] [-h <home_net_name>] [--help]
   -i|--image:	   Name to give to the created Docker image and containers. (${IMAGE_NAME})
@@ -58,16 +54,19 @@ verify_no_container "${IMAGE_NAME}"
 
 # Verify home network (shared by all homekit-related containers) is already created.
 verify_network "${HOME_NET_NAME}"
-HOME_SUBNET=${_SUBNET}
+# Don't need the subnet, but we should still verify the home network exists
+#HOME_SUBNET=${_SUBNET}
 
-# Verify we have a snaps directory ready for volume sharing
+
+####################################################################################
+# Begin Install
+echo "Installing ${IMAGE_NAME}..."
+set -x
+
+# Ensure we have a snaps directory ready for volume sharing
 sudo mkdir -p /opt/${HOME_NET_NAME}/snaps
 sudo chown root:root /opt/${HOME_NET_NAME}/snaps
 sudo chmod a+rw /opt/${HOME_NET_NAME}/snaps
-
-
-echo "Installing Smtp2Http..."
-set -x
 
 # Create and start the docker container
 export _HOME_NET_NAME="${HOME_NET_NAME}"
@@ -76,5 +75,6 @@ export _HOMEBRIDGE_ADDR="homebridge"
 export _PROJECT_NAME="${IMAGE_NAME}"
 docker compose -f "${SCRIPT_DIR}/docker-compose.yml" -p "${IMAGE_NAME}" up -d
 
-popd
-echo Done.
+####################################################################################
+# Done
+popd && echo "Done."

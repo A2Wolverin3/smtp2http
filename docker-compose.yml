@@ -23,3 +23,6 @@ services:
     # Don't need to publish port 25. Its already available within the virtual home network.
     # ports:
     #   - "25:25"
+    # Uncomment if the http server to post to is on 'host' instead of the virtual home network.
+    extra_hosts:
+      - "homebridge:host-gateway"

@@ -71,7 +71,7 @@ sudo chmod a+rw /opt/${HOME_NET_NAME}/snaps
 # Create and start the docker container
 export _HOME_NET_NAME="${HOME_NET_NAME}"
 export _MY_IP_ADDR=$(get_home_ip_address_for "smtp2http" && echo ${_IP_SMTP2HTTP})
-export _HOMEBRIDGE_ADDR="homebridge"
+export _HOMEBRIDGE_ADDR="homebridge:8081"
 export _PROJECT_NAME="${IMAGE_NAME}"
 docker compose -f "${SCRIPT_DIR}/docker-compose.yml" -p "${IMAGE_NAME}" up --build -d
 

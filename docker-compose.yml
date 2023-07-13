@@ -14,7 +14,7 @@ services:
       dockerfile: Dockerfile
       args:
         HOMEBRIDGE_ADDR: ${_HOMEBRIDGE_ADDR}
-    restart: always
+    restart: unless-stopped
     networks:
       home:
         ipv4_address: ${_MY_IP_ADDR}

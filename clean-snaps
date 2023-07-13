@@ -9,7 +9,9 @@ if [ ! -x /var/snaps ]; then
     exit 0
 fi
 
-sudo /usr/bin/find /var/snaps/ -type f -name "*.jpg" -daystart -mtime +10 -delete
+# sudo is not needed in containers. Pick the correct line for container or regular use.
+#sudo /usr/bin/find /var/snaps/ -type f -name "*.jpg" -daystart -mtime +10 -delete
+/usr/bin/find /var/snaps/ -type f -name "*.jpg" -daystart -mtime +10 -delete
 
 EXITVALUE=$?
 if [ $EXITVALUE != 0 ]; then

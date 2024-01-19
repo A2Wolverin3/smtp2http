@@ -11,7 +11,7 @@ IMAGE_NAME=smtp2http
 
 print_help() {
   cat << EOF
-Install and run ${Image_Name}. A simple smtp server to receive motion detection email from
+Install and run ${IMAGE_NAME}. A simple smtp server to receive motion detection email from
 NVR systems, and save the screen captures from those emails in a "snaps" directory. Also,
 fire off an HTTP request to notify HomeBridge of events.
 

@@ -6,8 +6,8 @@ RUN test -n "$HOMEBRIDGE_ADDR" || (echo "HOMEBRIDGE_ADDR build argument not set!
 
 # Install tools: cron, logrotate - m4 should already be installed
 RUN apt-get update && \
-    apt-get install cron -y && \
-    apt-get install logrotate -y
+    apt-get install cron -y
+#    apt-get install logrotate -y
 #     apt-get install m4 -y
 
 # Install smtp2http
